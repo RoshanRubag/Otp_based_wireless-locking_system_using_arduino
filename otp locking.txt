@@ -1,0 +1,23 @@
+#include <SoftwareSerial.h>
+
+SoftwareSerial BTSerial(10, 11); // RX | TX
+
+void setup() {
+  Serial.begin(9600);
+  BTSerial.begin(9600);
+  pinMode(9, OUTPUT); // Pin for the lock mechanism (servo or solenoid)
+}
+
+void loop() {
+  if (BTSerial.available()) {
+    char receivedChar = BTSerial.read();
+    Serial.print(receivedChar); // For debugging
+
+    // Compare receivedChar with the expected OTP
+    if (receivedChar == '1') { // Assuming '1' is the correct OTP for simplicity
+      digitalWrite(9, HIGH); // Unlock the door
+    } else {
+      digitalWrite(9, LOW); // Keep the door locked
+    }
+  }
+}
